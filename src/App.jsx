@@ -10,12 +10,13 @@ import { CHANNEL_BY_INBOX } from './data/channelChats';
 import SettingsPage from './pages/SettingsPage';
 import MySettingsPage from './pages/MySettingsPage';
 import { useState } from 'react';
+import { getRandomTagsForId, SAMPLE_DROPDOWN_TAGS } from './components/TagsDropdown';
 
 const conversationsData = [
   // --- Support: Mine (2) ---
   {
     id: 1,
-    inbox: 'Support',
+    inbox: 'Email 01',
     type: 'Mine',
     sender: 'John Smith',
     initial: 'J',
@@ -56,7 +57,7 @@ const conversationsData = [
   },
   {
     id: 2,
-    inbox: 'Support',
+    inbox: 'Email 01',
     type: 'Mine',
     sender: 'Alice Johnson',
     initial: 'A',
@@ -86,11 +87,148 @@ const conversationsData = [
       }
     ]
   },
+  {
+    id: 101,
+    inbox: 'Email 01',
+    type: 'Mine',
+    sender: 'Michael Scott',
+    initial: 'M',
+    avatarColor: 'var(--pastelOrangeBorderDefault)',
+    time: 'Feb 4, 10:15 AM',
+    subject: 'Integration webhook failure',
+    preview: 'Getting 500 error on status callback endpoint.',
+    threadCount: 3,
+    messages: [
+      {
+        id: 'm1',
+        sender: 'Michael Scott',
+        email: 'michael.s@dunder.com',
+        time: 'Feb 4, 08:30 AM',
+        initial: 'M',
+        avatarColor: 'var(--pastelOrangeBorderDefault)',
+        body: 'Hi Support,\n\nOur webhook endpoint has been receiving 500 errors from your servers since 8 AM. Could you check if there was a deployment?'
+      },
+      {
+        id: 'm2',
+        sender: 'Ruben Geidt',
+        email: 'ruben@acme.com',
+        time: 'Feb 4, 09:15 AM',
+        initial: 'R',
+        avatarColor: 'var(--pastelLightBlueBorderDefault)',
+        body: 'Hi Michael,\n\nOur engineering team deployed a patch to payload parsing. We are reverting it now.'
+      },
+      {
+        id: 'm3',
+        sender: 'Michael Scott',
+        email: 'michael.s@dunder.com',
+        time: 'Feb 4, 10:15 AM',
+        initial: 'M',
+        avatarColor: 'var(--pastelOrangeBorderDefault)',
+        body: 'Webhooks are back up and responding with 200 OK. Thank you for the quick turnaround!'
+      }
+    ]
+  },
+  {
+    id: 102,
+    inbox: 'Email 01',
+    type: 'Mine',
+    sender: 'Elena Rostova',
+    initial: 'E',
+    avatarColor: 'var(--pastelVioletTextBody)',
+    time: 'Feb 4, 09:30 AM',
+    subject: 'Enterprise license inquiry',
+    preview: 'Need quote for 250 additional agent seats.',
+    threadCount: 2,
+    messages: [
+      {
+        id: 'm1',
+        sender: 'Elena Rostova',
+        email: 'elena@novacorp.io',
+        time: 'Feb 4, 08:00 AM',
+        initial: 'E',
+        avatarColor: 'var(--pastelVioletTextBody)',
+        body: 'Hello Support,\n\nWe are scaling our support operations and require 250 additional agent seats on our Enterprise annual plan. Please share pricing.'
+      },
+      {
+        id: 'm2',
+        sender: 'Ruben Geidt',
+        email: 'ruben@acme.com',
+        time: 'Feb 4, 09:30 AM',
+        initial: 'R',
+        avatarColor: 'var(--pastelLightBlueBorderDefault)',
+        body: 'Hi Elena,\n\nI have prepared the custom volume tier quote and looped in your dedicated account manager.'
+      }
+    ]
+  },
+  {
+    id: 103,
+    inbox: 'Email 01',
+    type: 'Mine',
+    sender: 'Brian O\'Connor',
+    initial: 'B',
+    avatarColor: 'var(--pastelLightBlueBorderDefault)',
+    time: 'Feb 3, 04:10 PM',
+    subject: 'Two-factor auth reset',
+    preview: 'Lost phone and need recovery codes generated.',
+    threadCount: 2,
+    messages: [
+      {
+        id: 'm1',
+        sender: 'Brian O\'Connor',
+        email: 'brian.oc@velocity.com',
+        time: 'Feb 3, 02:40 PM',
+        initial: 'B',
+        avatarColor: 'var(--pastelLightBlueBorderDefault)',
+        body: 'Hi Ruben,\n\nI got a new device and lost access to my authenticator app. Could you help verify my identity and reset 2FA?'
+      },
+      {
+        id: 'm2',
+        sender: 'Ruben Geidt',
+        email: 'ruben@acme.com',
+        time: 'Feb 3, 04:10 PM',
+        initial: 'R',
+        avatarColor: 'var(--pastelLightBlueBorderDefault)',
+        body: 'Verification request sent to your registered backup phone number. Follow the link to complete reset.'
+      }
+    ]
+  },
+  {
+    id: 104,
+    inbox: 'Email 01',
+    type: 'Mine',
+    sender: 'Chloe Zhao',
+    initial: 'C',
+    avatarColor: 'var(--pastelGreenBorderDefault)',
+    time: 'Feb 3, 01:25 PM',
+    subject: 'Custom export formatting',
+    preview: 'Can we include custom fields in CSV download?',
+    threadCount: 2,
+    messages: [
+      {
+        id: 'm1',
+        sender: 'Chloe Zhao',
+        email: 'chloe@cinema.org',
+        time: 'Feb 3, 11:30 AM',
+        initial: 'C',
+        avatarColor: 'var(--pastelGreenBorderDefault)',
+        body: 'Hello Team,\n\nWhen exporting reports, our custom ticket fields are currently omitted. Is there a flag to include metadata?'
+      },
+      {
+        id: 'm2',
+        sender: 'Ruben Geidt',
+        email: 'ruben@acme.com',
+        time: 'Feb 3, 01:25 PM',
+        initial: 'R',
+        avatarColor: 'var(--pastelLightBlueBorderDefault)',
+        body: 'Hi Chloe,\n\nYes! Under Analytics > Exports, enable the "Include Extended Attributes" checkbox before downloading.'
+      }
+    ]
+  },
 
   // --- Support: Unassigned (4) ---
   {
     id: 4,
-    inbox: 'Support',
+    inbox: 'Email 01',
     type: 'Unassigned',
     sender: 'Emily Watson',
     initial: 'E',
@@ -122,7 +260,7 @@ const conversationsData = [
   },
   {
     id: 5,
-    inbox: 'Support',
+    inbox: 'Email 01',
     type: 'Unassigned',
     sender: 'David Chen',
     initial: 'D',
@@ -163,7 +301,7 @@ const conversationsData = [
   },
   {
     id: 6,
-    inbox: 'Support',
+    inbox: 'Email 01',
     type: 'Unassigned',
     sender: 'Sophia Lee',
     initial: 'S',
@@ -195,7 +333,7 @@ const conversationsData = [
   },
   {
     id: 13,
-    inbox: 'Support',
+    inbox: 'Email 01',
     type: 'Unassigned',
     sender: 'Mark Wilson',
     initial: 'M',
@@ -229,7 +367,7 @@ const conversationsData = [
   // --- Finance: Mine (5) ---
   {
     id: 7,
-    inbox: 'Finance',
+    inbox: 'Email 02',
     type: 'Mine',
     sender: 'Robert Brown',
     initial: 'R',
@@ -270,7 +408,7 @@ const conversationsData = [
   },
   {
     id: 8,
-    inbox: 'Finance',
+    inbox: 'Email 02',
     type: 'Mine',
     sender: 'Sarah Miller',
     initial: 'S',
@@ -302,7 +440,7 @@ const conversationsData = [
   },
   {
     id: 9,
-    inbox: 'Finance',
+    inbox: 'Email 02',
     type: 'Mine',
     sender: 'Finance Team',
     initial: 'F',
@@ -334,7 +472,7 @@ const conversationsData = [
   },
   {
     id: 14,
-    inbox: 'Finance',
+    inbox: 'Email 02',
     type: 'Mine',
     sender: 'Kevin Heart',
     initial: 'K',
@@ -366,7 +504,7 @@ const conversationsData = [
   },
   {
     id: 15,
-    inbox: 'Finance',
+    inbox: 'Email 02',
     type: 'Mine',
     sender: 'Julia Roberts',
     initial: 'J',
@@ -396,11 +534,148 @@ const conversationsData = [
       }
     ]
   },
+  {
+    id: 201,
+    inbox: 'Email 02',
+    type: 'Mine',
+    sender: 'Arthur Dent',
+    initial: 'A',
+    avatarColor: 'var(--pastelOrangeSurfaceDefault)',
+    time: 'Feb 4, 02:15 PM',
+    subject: 'Vendor Contract Q2 Review',
+    preview: 'Attached renewal agreement for cloud hosting services.',
+    threadCount: 3,
+    messages: [
+      {
+        id: 'm1',
+        sender: 'Arthur Dent',
+        email: 'arthur.d@galaxy.co',
+        time: 'Feb 4, 11:00 AM',
+        initial: 'A',
+        avatarColor: 'var(--pastelOrangeSurfaceDefault)',
+        body: 'Hi Ruben,\n\nPlease find attached the revised vendor MSA for Q2 cloud hosting. Legal has approved the amendments.'
+      },
+      {
+        id: 'm2',
+        sender: 'Ruben Geidt',
+        email: 'ruben@acme.com',
+        time: 'Feb 4, 01:00 PM',
+        initial: 'R',
+        avatarColor: 'var(--pastelLightBlueBorderDefault)',
+        body: 'Thanks Arthur. Verified the cost ceiling matches our $75k quarterly allocation. Countersigning now.'
+      },
+      {
+        id: 'm3',
+        sender: 'Arthur Dent',
+        email: 'arthur.d@galaxy.co',
+        time: 'Feb 4, 02:15 PM',
+        initial: 'A',
+        avatarColor: 'var(--pastelOrangeSurfaceDefault)',
+        body: 'Received signed copy. Purchase order PO-9941 is now active.'
+      }
+    ]
+  },
+  {
+    id: 202,
+    inbox: 'Email 02',
+    type: 'Mine',
+    sender: 'Natalie Portman',
+    initial: 'N',
+    avatarColor: 'var(--pastelVioletBorderDefault)',
+    time: 'Feb 4, 11:05 AM',
+    subject: 'Tax exemption certificate',
+    preview: 'Updated state sales tax exemption form for 2026.',
+    threadCount: 2,
+    messages: [
+      {
+        id: 'm1',
+        sender: 'Natalie Portman',
+        email: 'natalie.p@foundation.org',
+        time: 'Feb 4, 09:30 AM',
+        initial: 'N',
+        avatarColor: 'var(--pastelVioletBorderDefault)',
+        body: 'Hello Finance,\n\nWe have received our 2026 non-profit state exemption certificate. Please remove sales tax on future invoices.'
+      },
+      {
+        id: 'm2',
+        sender: 'Ruben Geidt',
+        email: 'ruben@acme.com',
+        time: 'Feb 4, 11:05 AM',
+        initial: 'R',
+        avatarColor: 'var(--pastelLightBlueBorderDefault)',
+        body: 'Certificate validated with the Department of Revenue. Tax exemption status applied to your account.'
+      }
+    ]
+  },
+  {
+    id: 203,
+    inbox: 'Email 02',
+    type: 'Mine',
+    sender: 'Carlos Mendez',
+    initial: 'C',
+    avatarColor: 'var(--pastelGreenTextBody)',
+    time: 'Feb 3, 03:20 PM',
+    subject: 'Equipment depreciation schedule',
+    preview: 'Please provide depreciation matrix for laptop fleet.',
+    threadCount: 2,
+    messages: [
+      {
+        id: 'm1',
+        sender: 'Carlos Mendez',
+        email: 'carlos.m@acme.com',
+        time: 'Feb 3, 01:10 PM',
+        initial: 'C',
+        avatarColor: 'var(--pastelGreenTextBody)',
+        body: 'Hi Finance,\n\nWe need the MACRS 5-year depreciation schedules for the 60 MacBooks procured in 2024 for tax filing.'
+      },
+      {
+        id: 'm2',
+        sender: 'Ruben Geidt',
+        email: 'ruben@acme.com',
+        time: 'Feb 3, 03:20 PM',
+        initial: 'R',
+        avatarColor: 'var(--pastelLightBlueBorderDefault)',
+        body: 'Asset schedule exported from NetSuite and shared via secure drive link.'
+      }
+    ]
+  },
+  {
+    id: 204,
+    inbox: 'Email 02',
+    type: 'Mine',
+    sender: 'Samantha Reed',
+    initial: 'S',
+    avatarColor: 'var(--pastelRedBorderDefault)',
+    time: 'Feb 3, 10:45 AM',
+    subject: 'Wire transfer confirmation',
+    preview: 'Payment for European subsidiary expansion sent.',
+    threadCount: 2,
+    messages: [
+      {
+        id: 'm1',
+        sender: 'Samantha Reed',
+        email: 'samantha.r@acme.com',
+        time: 'Feb 3, 09:00 AM',
+        initial: 'S',
+        avatarColor: 'var(--pastelRedBorderDefault)',
+        body: 'Ruben,\n\nCan you confirm SWIFT wire transfer MT103 for the €120,000 capital infusion to our Dublin entity?'
+      },
+      {
+        id: 'm2',
+        sender: 'Ruben Geidt',
+        email: 'ruben@acme.com',
+        time: 'Feb 3, 10:45 AM',
+        initial: 'R',
+        avatarColor: 'var(--pastelLightBlueBorderDefault)',
+        body: 'SWIFT wire confirmed by Citibank with reference CW-889104. Funds credited in Dublin account.'
+      }
+    ]
+  },
 
   // --- Finance: Unassigned (3) ---
   {
     id: 10,
-    inbox: 'Finance',
+    inbox: 'Email 02',
     type: 'Unassigned',
     sender: 'Vendor Support',
     initial: 'V',
@@ -432,7 +707,7 @@ const conversationsData = [
   },
   {
     id: 11,
-    inbox: 'Finance',
+    inbox: 'Email 02',
     type: 'Unassigned',
     sender: 'Legal Dept',
     initial: 'L',
@@ -464,7 +739,7 @@ const conversationsData = [
   },
   {
     id: 12,
-    inbox: 'Finance',
+    inbox: 'Email 02',
     type: 'Unassigned',
     sender: 'AWS Billing',
     initial: 'A',
@@ -985,6 +1260,145 @@ const conversationsData = [
         body: 'Procurement notified. Supply order pending.'
       }
     ]
+  },
+
+  // --- Personal Inbox: All (4) ---
+  {
+    id: 301,
+    inbox: 'Personal Inbox',
+    type: 'All',
+    sender: 'Claire Underwood',
+    initial: 'C',
+    avatarColor: 'var(--pastelVioletBorderDefault)',
+    time: 'Feb 4, 03:10 PM',
+    subject: 'VIP account review request',
+    preview: 'Quarterly compliance and SLA audit for strategic clients.',
+    threadCount: 3,
+    messages: [
+      {
+        id: 'm1',
+        sender: 'Claire Underwood',
+        email: 'claire.u@acme.com',
+        time: 'Feb 4, 01:00 PM',
+        initial: 'C',
+        avatarColor: 'var(--pastelVioletBorderDefault)',
+        body: 'Hi Ruben,\n\nCan you review the SLA performance metrics for our Tier 1 enterprise clients before tomorrow\'s executive sync?'
+      },
+      {
+        id: 'm2',
+        sender: 'Ruben Geidt',
+        email: 'ruben@acme.com',
+        time: 'Feb 4, 02:15 PM',
+        initial: 'R',
+        avatarColor: 'var(--pastelLightBlueBorderDefault)',
+        body: 'Working on it right now. All Tier 1 accounts have maintained 99.98% uptime this quarter.'
+      },
+      {
+        id: 'm3',
+        sender: 'Claire Underwood',
+        email: 'claire.u@acme.com',
+        time: 'Feb 4, 03:10 PM',
+        initial: 'C',
+        avatarColor: 'var(--pastelVioletBorderDefault)',
+        body: 'Excellent, send over the deck when ready.'
+      }
+    ]
+  },
+  {
+    id: 302,
+    inbox: 'Personal Inbox',
+    type: 'All',
+    sender: 'Devon Miles',
+    initial: 'D',
+    avatarColor: 'var(--pastelLightBlueBorderDefault)',
+    time: 'Feb 4, 01:45 PM',
+    subject: 'Urgent: API Gateway latency anomaly',
+    preview: 'P99 response time spikes on authentication microservice.',
+    threadCount: 2,
+    messages: [
+      {
+        id: 'm1',
+        sender: 'Devon Miles',
+        email: 'devon@acme.com',
+        time: 'Feb 4, 11:30 AM',
+        initial: 'D',
+        avatarColor: 'var(--pastelLightBlueBorderDefault)',
+        body: 'Ruben, seeing occasional 400ms latency spikes in auth-service cluster. Tagged as high priority bug report.'
+      },
+      {
+        id: 'm2',
+        sender: 'Ruben Geidt',
+        email: 'ruben@acme.com',
+        time: 'Feb 4, 01:45 PM',
+        initial: 'R',
+        avatarColor: 'var(--pastelLightBlueBorderDefault)',
+        body: 'Isolated the root cause to Redis connection pool exhaustion. Patch is deploying now.'
+      }
+    ]
+  },
+  {
+    id: 303,
+    inbox: 'Personal Inbox',
+    type: 'All',
+    sender: 'Sarah Connor',
+    initial: 'S',
+    avatarColor: 'var(--pastelOrangeBorderDefault)',
+    time: 'Feb 4, 10:20 AM',
+    subject: 'New inbound lead referral from partner network',
+    preview: 'Expansion inquiry from fintech startup looking to onboard 80 seats.',
+    threadCount: 2,
+    messages: [
+      {
+        id: 'm1',
+        sender: 'Sarah Connor',
+        email: 'sarah.c@partners.io',
+        time: 'Feb 4, 09:00 AM',
+        initial: 'S',
+        avatarColor: 'var(--pastelOrangeBorderDefault)',
+        body: 'Hey Ruben,\n\nPassing along an inbound lead from FinCorp. They are looking to deploy next month.'
+      },
+      {
+        id: 'm2',
+        sender: 'Ruben Geidt',
+        email: 'ruben@acme.com',
+        time: 'Feb 4, 10:20 AM',
+        initial: 'R',
+        avatarColor: 'var(--pastelLightBlueBorderDefault)',
+        body: 'Thanks Sarah! Reaching out to their team today.'
+      }
+    ]
+  },
+  {
+    id: 304,
+    inbox: 'Personal Inbox',
+    type: 'All',
+    sender: 'George Clark',
+    initial: 'G',
+    avatarColor: 'var(--pastelRedBorderDefault)',
+    time: 'Feb 3, 04:50 PM',
+    subject: 'Hardware logistics shipment confirmation',
+    preview: 'Test devices and peripherals dispatched for field trial.',
+    threadCount: 2,
+    messages: [
+      {
+        id: 'm1',
+        sender: 'George Clark',
+        email: 'george@logistics.acme.com',
+        time: 'Feb 3, 03:00 PM',
+        initial: 'G',
+        avatarColor: 'var(--pastelRedBorderDefault)',
+        body: 'Tracking details for the 10 QA demo devices have been generated: FX-8839210.'
+      },
+      {
+        id: 'm2',
+        sender: 'Ruben Geidt',
+        email: 'ruben@acme.com',
+        time: 'Feb 3, 04:50 PM',
+        initial: 'R',
+        avatarColor: 'var(--pastelLightBlueBorderDefault)',
+        body: 'Confirmed receipt of tracking info. Notified the recipients.'
+      }
+    ]
   }
 ];
 
@@ -1028,9 +1442,9 @@ const hashString = (str) => {
   return hash;
 };
 
-const generateDummyConversations = (inbox, type) => {
+const generateDummyConversations = (inbox, type, countOverride) => {
   const seed = hashString(`${inbox}|${type}`);
-  const count = 4 + (seed % 5); // 4-8 threads
+  const count = countOverride !== undefined ? countOverride : 4 + (seed % 5);
   return Array.from({ length: count }, (_, i) => {
     const person = DUMMY_SENDERS[(seed + i) % DUMMY_SENDERS.length];
     const topic = DUMMY_SUBJECTS[(seed + i * 3) % DUMMY_SUBJECTS.length];
@@ -1069,16 +1483,250 @@ const generateDummyConversations = (inbox, type) => {
   });
 };
 
+const PRE_SEEDED_TAGS = {
+  1: [
+    { id: 'tier_1', name: 'Tier 1', theme: 'blue', path: ['Customers', 'North America', 'Tier 1'] },
+    { id: 'normal_01', name: 'Normal Tag 01', theme: 'blue', path: ['Normal Tag 01'] },
+    { id: 'customers', name: 'Customers', theme: 'blue', path: ['Customers'] }
+  ],
+  2: [
+    { id: 'na', name: 'North America', theme: 'blue', path: ['Customers', 'North America'] },
+    { id: 'inbound_leads', name: 'Inbound Leads', theme: 'blue', path: ['Customers', 'Mid Market', 'Inbound Leads'] },
+    { id: 'customers', name: 'Customers', theme: 'blue', path: ['Customers'] }
+  ],
+  4: [
+    { id: 'bug_reports', name: 'Bug Reports', theme: 'pink', path: ['Technical Support', 'Bug Reports'] },
+    { id: 'delivery_issues', name: 'Delivery Issues', theme: 'lavender', path: ['Operations', 'Logistics', 'Delivery Issues'] },
+    { id: 'operations', name: 'Operations', theme: 'lavender', path: ['Operations'] }
+  ],
+  5: [
+    { id: 'bug_reports', name: 'Bug Reports', theme: 'pink', path: ['Technical Support', 'Bug Reports'] },
+    { id: 'technical_support', name: 'Technical Support', theme: 'pink', path: ['Technical Support'] },
+    { id: 'tier_02', name: 'Tier 02', theme: 'blue', path: ['Customers', 'North America', 'Tier 02'] }
+  ],
+  6: [
+    { id: 'feature_requests', name: 'Feature Requests', theme: 'pink', path: ['Technical Support', 'Feature Requests'] },
+    { id: 'technical_support', name: 'Technical Support', theme: 'pink', path: ['Technical Support'] },
+    { id: 'a2', name: 'a2', theme: 'yellow', path: ['Internal QA', 'Channels Test', 'a2'] }
+  ],
+  13: [
+    { id: 'bug_reports', name: 'Bug Reports', theme: 'pink', path: ['Technical Support', 'Bug Reports'] },
+    { id: 'address_change', name: 'Address Change', theme: 'lavender', path: ['Operations', 'Logistics', 'Address Change'] },
+    { id: 'operations', name: 'Operations', theme: 'lavender', path: ['Operations'] }
+  ],
+  7: [
+    { id: 'renewals_q4', name: 'Renewals Q4', theme: 'lavender', color: '#8b5cf6', path: ['Customers', 'Mid Market', 'Renewals Q4'] },
+    { id: 'na', name: 'North America', theme: 'blue', color: '#1f93ff', path: ['Customers', 'North America'] },
+    { id: 'customers', name: 'Customers', theme: 'blue', color: '#1f93ff', path: ['Customers'] }
+  ],
+  8: [
+    { id: 'delivery_issues', name: 'Delivery Issues', theme: 'orange', color: '#fb923c', path: ['Operations', 'Logistics', 'Delivery Issues'] },
+    { id: 'tier_1', name: 'Tier 1', theme: 'blue', color: '#1f93ff', path: ['Customers', 'North America', 'Tier 1'] },
+    { id: 'operations', name: 'Operations', theme: 'lavender', color: '#8b5cf6', path: ['Operations'] }
+  ],
+  9: [
+    { id: 'uk_ireland', name: 'UK & Ireland', theme: 'blue', color: '#1f93ff', path: ['Customers', 'EMEA', 'UK & Ireland'] },
+    { id: 'dach', name: 'DACH Region', theme: 'green', color: '#10b981', path: ['Customers', 'EMEA', 'DACH Region'] },
+    { id: 'customers', name: 'Customers', theme: 'blue', color: '#1f93ff', path: ['Customers'] }
+  ],
+  14: [
+    { id: 'bug_reports', name: 'Bug Reports', theme: 'pink', color: '#ec4899', path: ['Technical Support', 'Bug Reports'] },
+    { id: 'technical_support', name: 'Technical Support', theme: 'pink', color: '#ec4899', path: ['Technical Support'] },
+    { id: 'normal_02', name: 'Normal Tag 02', theme: 'pink', color: '#ec4899', path: ['Normal Tag 02'] }
+  ],
+  15: [
+    { id: 'inbound_leads', name: 'Inbound Leads', theme: 'yellow', color: '#eab308', path: ['Customers', 'Mid Market', 'Inbound Leads'] },
+    { id: 'tier_03', name: 'Tier 03', theme: 'lavender', color: '#8b5cf6', path: ['Customers', 'North America', 'Tier 03'] },
+    { id: 'customers', name: 'Customers', theme: 'blue', color: '#1f93ff', path: ['Customers'] }
+  ],
+  10: [
+    { id: 'bug_reports', name: 'Bug Reports', theme: 'pink', color: '#ec4899', path: ['Technical Support', 'Bug Reports'] },
+    { id: 'technical_support', name: 'Technical Support', theme: 'pink', color: '#ec4899', path: ['Technical Support'] },
+    { id: 'aaa3', name: 'aaa3', theme: 'lavender', color: '#8b5cf6', path: ['Internal QA', 'Channels Test', 'aaa3'] }
+  ],
+  11: [
+    { id: 'feature_requests', name: 'Feature Requests', theme: 'green', color: '#10b981', path: ['Technical Support', 'Feature Requests'] },
+    { id: 'customers', name: 'Customers', theme: 'blue', color: '#1f93ff', path: ['Customers'] }
+  ],
+  101: [
+    { id: 'bug_reports', name: 'Bug Reports', theme: 'pink', color: '#ec4899', path: ['Technical Support', 'Bug Reports'] },
+    { id: 'technical_support', name: 'Technical Support', theme: 'pink', color: '#ec4899', path: ['Technical Support'] }
+  ],
+  102: [
+    { id: 'inbound_leads', name: 'Inbound Leads', theme: 'yellow', color: '#eab308', path: ['Customers', 'Mid Market', 'Inbound Leads'] },
+    { id: 'customers', name: 'Customers', theme: 'blue', color: '#1f93ff', path: ['Customers'] }
+  ],
+  103: [
+    { id: 'tier_02', name: 'Tier 02', theme: 'orange', color: '#fb923c', path: ['Customers', 'North America', 'Tier 02'] },
+    { id: 'na', name: 'North America', theme: 'blue', color: '#1f93ff', path: ['Customers', 'North America'] }
+  ],
+  104: [
+    { id: 'feature_requests', name: 'Feature Requests', theme: 'green', color: '#10b981', path: ['Technical Support', 'Feature Requests'] },
+    { id: 'technical_support', name: 'Technical Support', theme: 'pink', color: '#ec4899', path: ['Technical Support'] }
+  ],
+  201: [
+    { id: 'renewals_q4', name: 'Renewals Q4', theme: 'lavender', color: '#8b5cf6', path: ['Customers', 'Mid Market', 'Renewals Q4'] },
+    { id: 'customers', name: 'Customers', theme: 'blue', color: '#1f93ff', path: ['Customers'] }
+  ],
+  202: [
+    { id: 'tier_1', name: 'Tier 1', theme: 'blue', color: '#1f93ff', path: ['Customers', 'North America', 'Tier 1'] },
+    { id: 'na', name: 'North America', theme: 'blue', color: '#1f93ff', path: ['Customers', 'North America'] }
+  ],
+  203: [
+    { id: 'delivery_issues', name: 'Delivery Issues', theme: 'orange', color: '#fb923c', path: ['Operations', 'Logistics', 'Delivery Issues'] },
+    { id: 'operations', name: 'Operations', theme: 'lavender', color: '#8b5cf6', path: ['Operations'] }
+  ],
+  204: [
+    { id: 'uk_ireland', name: 'UK & Ireland', theme: 'blue', color: '#1f93ff', path: ['Customers', 'EMEA', 'UK & Ireland'] },
+    { id: 'customers', name: 'Customers', theme: 'blue', color: '#1f93ff', path: ['Customers'] }
+  ],
+  301: [
+    { id: 'tier1', name: 'Tier 1', theme: 'blue', color: '#1f93ff', path: ['Customers', 'North America', 'Tier 1'] },
+    { id: 'na', name: 'North America', theme: 'blue', color: '#1f93ff', path: ['Customers', 'North America'] },
+    { id: 'customers', name: 'Customers', theme: 'blue', color: '#1f93ff', path: ['Customers'] }
+  ],
+  302: [
+    { id: 'bug_reports', name: 'Bug Reports', theme: 'pink', color: '#ec4899', path: ['Technical Support', 'Bug Reports'] },
+    { id: 'technical_support', name: 'Technical Support', theme: 'pink', color: '#ec4899', path: ['Technical Support'] }
+  ],
+  303: [
+    { id: 'inbound_leads', name: 'Inbound Leads', theme: 'yellow', color: '#eab308', path: ['Customers', 'Mid Market', 'Inbound Leads'] },
+    { id: 'customers', name: 'Customers', theme: 'blue', color: '#1f93ff', path: ['Customers'] }
+  ],
+  304: [
+    { id: 'delivery_issues', name: 'Delivery Issues', theme: 'orange', color: '#fb923c', path: ['Operations', 'Logistics', 'Delivery Issues'] },
+    { id: 'operations', name: 'Operations', theme: 'lavender', color: '#8b5cf6', path: ['Operations'] }
+  ]
+};
+
 function App() {
-  const [selectedId, setSelectedId] = useState('chat-01-unassigned-0');
-  const [activeFilter, setActiveFilter] = useState({ inbox: 'Chat 01', type: 'Unassigned' });
+  const [selectedId, setSelectedId] = useState(1);
+  const [activeFilter, setActiveFilter] = useState({ inbox: 'Email 01', type: 'Mine' });
 
   // Prototype role — All Views pins Team Favourites as Admin. No toggle UI.
   const activeRole = 'Admin';
 
   const dummyCacheRef = React.useRef({});
 
+  const [signatures, setSignatures] = useState([]);
+  const [defaultSignatureId, setDefaultSignatureId] = useState(null);
+
+  // Track applied tags per conversation id (initialized with deterministic random dropdown tags)
+  const [convoTagsMap, setConvoTagsMap] = useState({});
+
+  const getTagsForConvo = React.useCallback((convoId) => {
+    if (convoTagsMap[convoId] !== undefined) {
+      return convoTagsMap[convoId];
+    }
+    if (PRE_SEEDED_TAGS[convoId]) {
+      return PRE_SEEDED_TAGS[convoId];
+    }
+    // If this conversation was generated for a tag filter, guarantee it contains that tag!
+    if (typeof convoId === 'string' && convoId.startsWith('dummy-') && activeFilter.tagName) {
+      const primaryTag = SAMPLE_DROPDOWN_TAGS.find(t =>
+        t.name.toLowerCase() === activeFilter.tagName.toLowerCase() ||
+        (activeFilter.tagId && t.id === activeFilter.tagId)
+      ) || {
+        id: activeFilter.tagId || activeFilter.tagName.toLowerCase().replace(/\s+/g, '_'),
+        name: activeFilter.tagName,
+        theme: activeFilter.tagTheme || 'blue',
+        color: activeFilter.tagColor || '#1f93ff',
+        path: [activeFilter.tagName]
+      };
+      const extraTags = getRandomTagsForId(convoId).filter(t => t.id !== primaryTag.id);
+      return [primaryTag, ...extraTags.slice(0, 1)];
+    }
+    return getRandomTagsForId(convoId);
+  }, [convoTagsMap, activeFilter.tagName, activeFilter.tagId]);
+
+  const handleUpdateTags = React.useCallback((convoId, newTags) => {
+    setConvoTagsMap(prev => ({
+      ...prev,
+      [convoId]: newTags,
+    }));
+  }, []);
+
+const TAG_COUNT_LOOKUP = {
+  'customers': 12,
+  'na': 3,
+  'north america': 3,
+  'tier 1': 1,
+  'tier 2': 1,
+  'tier 3': 1,
+  'tier_1': 1,
+  'tier1': 1,
+  'tier_02': 1,
+  'tier2': 1,
+  'tier_03': 1,
+  'tier3': 1,
+  'emea': 3,
+  'uk & ireland': 2,
+  'uk_ireland': 2,
+  'dach region': 1,
+  'dach': 1,
+  'mid market': 6,
+  'midmarket': 6,
+  'inbound leads': 4,
+  'inbound_leads': 4,
+  'renewals q4': 2,
+  'renewals_q4': 2,
+  'operations': 4,
+  'logistics': 4,
+  'delivery issues': 3,
+  'delivery_issues': 3,
+  'address change': 1,
+  'address_change': 1,
+  'technical support': 18,
+  'technical_support': 18,
+  'bug reports': 7,
+  'bug_reports': 7,
+  'feature requests': 11,
+  'feature_requests': 11,
+  'inbox': 1,
+  'out of office mails': 6,
+  'ooo': 6,
+  'priority': 3,
+};
+
+function getExpectedTagCount(filter) {
+  if (filter.tagCount !== undefined && filter.tagCount !== null) {
+    return filter.tagCount;
+  }
+  const keyId = (filter.tagId || '').toLowerCase().trim();
+  const keyName = (filter.tagName || '').toLowerCase().trim();
+  if (TAG_COUNT_LOOKUP[keyId] !== undefined) return TAG_COUNT_LOOKUP[keyId];
+  if (TAG_COUNT_LOOKUP[keyName] !== undefined) return TAG_COUNT_LOOKUP[keyName];
+  return 3;
+}
+
   const filteredConversations = React.useMemo(() => {
+    // 1. Tag Filtering
+    if (activeFilter.tagName) {
+      const targetTag = activeFilter.tagName.toLowerCase();
+      const expectedCount = getExpectedTagCount(activeFilter);
+      const inboxConvos = conversationsData.filter(c => c.inbox === activeFilter.inbox);
+      const matched = inboxConvos.filter(c => {
+        const tags = getTagsForConvo(c.id);
+        return tags && tags.some(t =>
+          t.name.toLowerCase() === targetTag ||
+          (activeFilter.tagId && t.id === activeFilter.tagId)
+        );
+      });
+
+      if (matched.length >= expectedCount) {
+        return matched.slice(0, expectedCount);
+      }
+
+      // If matched static conversations are fewer than expectedCount, pad with dummy conversations
+      const needed = expectedCount - matched.length;
+      const key = `${activeFilter.inbox}|tag|${activeFilter.tagName}|${expectedCount}`;
+      if (!dummyCacheRef.current[key]) {
+        dummyCacheRef.current[key] = generateDummyConversations(activeFilter.inbox, activeFilter.tagName, needed);
+      }
+      return [...matched, ...dummyCacheRef.current[key]];
+    }
+
+    // 2. Standard view filtering (Mine, Unassigned, etc.)
     const real = conversationsData.filter(c =>
       c.inbox === activeFilter.inbox && c.type === activeFilter.type
     );
@@ -1089,7 +1737,7 @@ function App() {
       dummyCacheRef.current[key] = generateDummyConversations(activeFilter.inbox, activeFilter.type);
     }
     return dummyCacheRef.current[key];
-  }, [activeFilter.inbox, activeFilter.type]);
+  }, [activeFilter.inbox, activeFilter.type, activeFilter.tagName, activeFilter.tagId, getTagsForConvo]);
 
   const location = useLocation();
   React.useEffect(() => {
@@ -1106,13 +1754,17 @@ function App() {
     } else {
       setSelectedId(null);
     }
-  }, [activeFilter.inbox, activeFilter.type]);
+  }, [activeFilter.inbox, activeFilter.type, activeFilter.tagName, activeFilter.tagId, filteredConversations]);
 
-  const [signatures, setSignatures] = useState([]);
-  const [defaultSignatureId, setDefaultSignatureId] = useState(null);
+  const conversationsWithTags = React.useMemo(() => {
+    return filteredConversations.map(c => ({
+      ...c,
+      tags: getTagsForConvo(c.id),
+    }));
+  }, [filteredConversations, getTagsForConvo]);
 
-  const selectedConversation = conversationsData.find(c => c.id === selectedId)
-    || filteredConversations.find(c => c.id === selectedId);
+  const selectedConversation = conversationsWithTags.find(c => c.id === selectedId)
+    || conversationsData.find(c => c.id === selectedId);
 
   return (
     <div className="app-container">
@@ -1129,7 +1781,7 @@ function App() {
             ) : (
               <>
                 <ConversationList
-                  conversations={filteredConversations}
+                  conversations={conversationsWithTags}
                   selectedId={selectedId}
                   onSelect={setSelectedId}
                   activeFilter={activeFilter}
@@ -1141,12 +1793,18 @@ function App() {
                   defaultSignatureId={defaultSignatureId}
                 />
                 <RightPanel
-                  inboxName={`${activeFilter.inbox} Inbox`}
+                  inboxName={
+                    activeFilter.inbox.toLowerCase().includes('inbox') || activeFilter.inbox === 'My Work'
+                      ? activeFilter.inbox
+                      : `${activeFilter.inbox} Inbox`
+                  }
                   contact={{
                     name: selectedConversation?.sender,
                     email: selectedConversation?.messages?.[0]?.email,
                     phone: selectedConversation?.phone || '+1 (555) 012-3456',
                   }}
+                  conversationTags={selectedConversation ? getTagsForConvo(selectedConversation.id) : []}
+                  onUpdateTags={(newTags) => selectedConversation && handleUpdateTags(selectedConversation.id, newTags)}
                 />
               </>
             )}

@@ -1,0 +1,426 @@
+/* TagsPanel.css - Styled to match Figma Admin-Panel node 16:5841 */
+
+.tags-panel-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: var(--slateSurfaceSubtle, #f8fafc);
+  font-family: var(--font-family, 'Hanken Grotesk', sans-serif);
+  user-select: none;
+}
+
+/* 1. Header Row (<- Conversations  [search] [+] [v]) */
+.tags-top-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 50px;
+  padding: 8px 12px;
+  flex-shrink: 0;
+}
+
+.tags-header-back-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: var(--slateTextBody, #334155);
+  transition: opacity 0.15s ease;
+}
+
+.tags-header-back-group:hover {
+  opacity: 0.8;
+}
+
+.tags-back-icon-btn {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  color: var(--slateTextBody, #334155);
+}
+
+.tags-header-title {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  color: var(--slateTextBody, #334155);
+  letter-spacing: -0.01em;
+}
+
+.tags-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 2. Sub-Header: Branding / Tags  [+] */
+.tags-subheader-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 38px;
+  padding: 6px 12px 0 12px;
+  flex-shrink: 0;
+}
+
+.tags-breadcrumb-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.tags-breadcrumb-prefix {
+  color: var(--slateTextSubtle, #64758b);
+  font-weight: 400;
+}
+
+.tags-breadcrumb-slash {
+  color: var(--slateTextDisabled, #94a3b8);
+  font-size: 16px;
+}
+
+.tags-breadcrumb-current {
+  color: var(--slateTextTitle, #0f172a);
+  font-weight: 600;
+}
+
+.tags-add-icon-btn {
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--slateIconsSubtle, #64758b);
+  transition: background-color 0.15s;
+}
+
+.tags-add-icon-btn:hover {
+  background-color: var(--slateSurfaceSubtle100-hover, #f1f5f9);
+  color: var(--slateTextTitle, #0f172a);
+}
+
+/* 3. Search Box */
+.tags-search-container {
+  padding: 10px 12px;
+  flex-shrink: 0;
+}
+
+.tags-search-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.tags-search-glass-icon {
+  position: absolute;
+  left: 10px;
+  color: var(--slateTextSubtle, #64758b);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tags-search-input {
+  width: 100%;
+  height: 32px;
+  background: var(--slateSurfaceWhite, #ffffff);
+  border: 1.5px solid #a9c5f9;
+  border-radius: 6px;
+  padding: 6px 10px 6px 30px;
+  font-family: inherit;
+  font-size: 12px;
+  color: var(--slateTextBody, #334155);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.tags-search-input::placeholder {
+  color: var(--slateTextSubtle, #64758b);
+  font-size: 12px;
+}
+
+.tags-search-input:focus {
+  border-color: #276cf0;
+  box-shadow: 0 0 0 2px rgba(39, 108, 240, 0.15);
+}
+
+/* 4. List Content */
+.tags-list-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 8px 16px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Back Row in Drilldown */
+.tags-drill-back-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--slateTextTitle, #0f172a);
+  cursor: pointer;
+  transition: background-color 0.15s;
+  margin-bottom: 4px;
+}
+
+.tags-drill-back-row:hover {
+  background-color: var(--slateSurfaceSubtle100-hover, #f1f5f9);
+}
+
+.tags-drill-back-arrow {
+  color: var(--slateTextSubtle, #64758b);
+  display: flex;
+  align-items: center;
+}
+
+/* Folder Item */
+.tags-folder-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 32px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.tags-folder-item:hover {
+  background-color: var(--slateSurfaceSubtle100-hover, #f1f5f9);
+}
+
+.tags-folder-item-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+}
+
+.tags-folder-icon {
+  color: var(--slateIconsSubtle, #64758b);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.tags-folder-label {
+  font-size: 14px;
+  color: var(--slateTextBody, #334155);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tags-chevron-icon {
+  color: var(--slateIconsDisabled, #94a3b8);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* Leaf Tag Item */
+.tags-leaf-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 32px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.tags-leaf-item.has-subtitle {
+  height: 48px;
+  padding: 7px 8px;
+}
+
+.tags-leaf-item:hover {
+  background-color: var(--slateSurfaceSubtle100-hover, #f1f5f9);
+}
+
+.tags-leaf-item.active {
+  background-color: #eff6ff;
+}
+
+.tags-leaf-item.active .tags-leaf-label {
+  color: #1d4ed8;
+}
+
+.tags-leaf-item-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+}
+
+.tags-indicator-bar {
+  width: 4px;
+  height: 20px;
+  border-radius: 9999px;
+  flex-shrink: 0;
+  transition: height 0.15s;
+}
+
+.tags-leaf-item.has-subtitle .tags-indicator-bar {
+  height: 33px;
+}
+
+.tags-leaf-text-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  flex: 1;
+}
+
+.tags-leaf-label {
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 400;
+  color: var(--slateTextBody, #334155);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Search match subtitle matching Figma node 16:15502 */
+.tags-search-path-hint {
+  font-size: 11px;
+  line-height: 14px;
+  color: var(--slateTextSubtle, #64758b);
+  margin-top: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tags-leaf-count {
+  font-size: 14px;
+  line-height: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  color: var(--slateTextBody, #334155);
+  font-variant-numeric: tabular-nums;
+  margin-left: 8px;
+  flex-shrink: 0;
+}
+
+/* Non-nested tag kebab action & menu */
+.tags-leaf-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-left: 8px;
+  flex-shrink: 0;
+  position: relative;
+  min-width: 20px;
+  height: 20px;
+}
+
+.tags-kebab-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  color: var(--slateTextBody, #334155);
+  transition: background-color 0.12s;
+}
+
+.tags-kebab-btn:hover,
+.tags-kebab-btn.active {
+  background-color: var(--slateSurfaceSubtle200, #e2e8f0);
+}
+
+.tags-leaf-item:hover .tags-leaf-actions .tags-leaf-count {
+  display: none;
+}
+
+.tags-leaf-item:hover .tags-leaf-actions .tags-kebab-btn {
+  display: flex;
+}
+
+.tags-leaf-item.menu-open .tags-leaf-actions .tags-leaf-count {
+  display: none;
+}
+
+.tags-leaf-item.menu-open .tags-leaf-actions .tags-kebab-btn {
+  display: flex;
+}
+
+/* Floating Kebab Dropdown Menu */
+.tags-kebab-dropdown {
+  min-width: 140px;
+  background: #ffffff;
+  border: 1px solid var(--slateBorderSubtle, #e2e8f0);
+  border-radius: 12px;
+  padding: 6px;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.12), 0 8px 10px -6px rgba(15, 23, 42, 0.06);
+  animation: tagsDropdownFadeIn 0.12s ease-out;
+}
+
+@keyframes tagsDropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tags-kebab-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  color: #0f172a;
+  cursor: pointer;
+  transition: background-color 0.12s;
+  user-select: none;
+}
+
+.tags-kebab-dropdown-item:hover {
+  background-color: #f1f5f9;
+}
+
+.tags-kebab-dropdown-icon {
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+

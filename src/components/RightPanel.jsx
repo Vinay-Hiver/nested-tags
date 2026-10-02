@@ -38,6 +38,7 @@ import rpConversationsIcon from '../icons/rp-conversations.svg';
 import accountSubtleIcon from '../icons/account-icon-subtle.svg';
 import slackChannelIcon from '../assets/icons/channels/slack.svg';
 import './RightPanel.css';
+import TagsDropdown, { formatTooltipPath, getTagTheme, getTagChipStyle } from './TagsDropdown';
 
 const Img = ({ src, size = 16 }) => <img src={src} width={size} height={size} alt="" />;
 
@@ -217,6 +218,154 @@ function AssigneeField() {
   );
 }
 
+function TagsField({ tags = [], onChangeTags }) {
+  const [open, setOpen] = useState(false);
+  const [appliedTags, setAppliedTags] = useState(tags);
+  const [ddStyle, setDdStyle] = useState({});
+  const [hoveredTag, setHoveredTag] = useState(null);
+  const [tooltipPos, setTooltipPos] = useState({ top: 0, left: 0 });
+  const ctrlRef = useRef(null);
+  const ddRef = useRef(null);
+
+  useEffect(() => {
+    setAppliedTags(tags);
+  }, [tags]);
+
+  useEffect(() => {
+    if (!open) return;
+    function onClick(e) {
+      if (
+        (ctrlRef.current && ctrlRef.current.contains(e.target)) ||
+        (ddRef.current && ddRef.current.contains(e.target))
+      ) {
+        return;
+      }
+      setOpen(false);
+    }
+    document.addEventListener('mousedown', onClick);
+    return () => document.removeEventListener('mousedown', onClick);
+  }, [open]);
+
+  function handleOpen() {
+    setHoveredTag(null);
+    if (ctrlRef.current) {
+      const r = ctrlRef.current.getBoundingClientRect();
+      const width = 300;
+      let left = r.right - width;
+      if (left < 8) left = 8;
+      setDdStyle({
+        position: 'fixed',
+        left: `${left}px`,
+        top: `${r.bottom + 4}px`,
+        width: `${width}px`,
+      });
+    }
+    setOpen((o) => !o);
+  }
+
+  function handleApply(newTags) {
+    setAppliedTags(newTags);
+    if (onChangeTags) onChangeTags(newTags);
+    setHoveredTag(null);
+    setOpen(false);
+  }
+
+  function handleCancel() {
+    setOpen(false);
+  }
+
+  function handleRemoveTag(tagId) {
+    const next = appliedTags.filter((t) => t.id !== tagId);
+    setAppliedTags(next);
+    if (onChangeTags) onChangeTags(next);
+    setHoveredTag((prev) => (prev && prev.id === tagId ? null : prev));
+  }
+
+  function handleChipMouseEnter(tag, e) {
+    const tooltipText = formatTooltipPath(tag.path, tag);
+    if (!tooltipText) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    setTooltipPos({
+      top: rect.top + rect.height / 2,
+      left: rect.left - 8,
+    });
+    setHoveredTag({ ...tag, tooltipText });
+  }
+
+  function handleChipMouseLeave() {
+    setHoveredTag(null);
+  }
+
+  return (
+    <div className="rp-field rp-tags-row">
+      <div className="rp-field__label">
+        <span className="rp-field__icon"><Img src={tagsIcon} size={14} /></span>
+        <span>Tags</span>
+      </div>
+      <div className="rp-field__value rp-tags-value">
+        <div
+          ref={ctrlRef}
+          className={`rp-tags-select ${open ? 'is-open' : ''}`}
+          onClick={handleOpen}
+        >
+          {appliedTags.length === 0 ? (
+            <span className="rp-value-empty">Empty</span>
+          ) : (
+            <span className="rp-tags-chip-list">
+              {appliedTags.map((tag) => (
+                <span
+                  key={tag.id}
+                  className={`rp-applied-chip rp-applied-chip--${getTagTheme(tag)}`}
+                  style={getTagChipStyle(tag)}
+                  onClick={(e) => e.stopPropagation()}
+                  onMouseEnter={(e) => handleChipMouseEnter(tag, e)}
+                  onMouseLeave={handleChipMouseLeave}
+                >
+                  <span>{tag.name}</span>
+                  <span
+                    className="rp-applied-chip__x"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleRemoveTag(tag.id);
+                    }}
+                    title={`Remove ${tag.name}`}
+                  >
+                    ×
+                  </span>
+                </span>
+              ))}
+            </span>
+          )}
+          {/* Note: NO dropdown chevron on hover for Tags */}
+        </div>
+
+        {/* Floating tooltip displaying tag hierarchy path on hover */}
+        {hoveredTag && (
+          <div
+            className="rp-tag-path-tooltip"
+            style={{
+              top: `${tooltipPos.top}px`,
+              left: `${tooltipPos.left}px`,
+            }}
+          >
+            {hoveredTag.tooltipText}
+          </div>
+        )}
+
+        {open && (
+          <TagsDropdown
+            dropdownRef={ddRef}
+            selectedTags={appliedTags}
+            onApply={handleApply}
+            onCancel={handleCancel}
+            style={ddStyle}
+          />
+        )}
+      </div>
+    </div>
+  );
+}
+
 function FieldRow({ icon, label, value, valueClass = '' }) {
   return (
     <div className="rp-field">
@@ -286,7 +435,13 @@ function SortableSection({ id, icon, title, defaultOpen = false, children }) {
   );
 }
 
-export default function RightPanel({ inboxName = 'Email Inbox Name', channel = 'email', contact = {} }) {
+export default function RightPanel({
+  inboxName = 'Email Inbox Name',
+  channel = 'email',
+  contact = {},
+  conversationTags = [],
+  onUpdateTags,
+}) {
   const contactName = contact.name;
   const contactEmail = contact.email;
   const contactPhone = contact.phone;
@@ -583,16 +738,7 @@ export default function RightPanel({ inboxName = 'Email Inbox Name', channel = '
             label="Status"
             value={<span className="rp-value-strong">Open</span>}
           />
-          <FieldRow
-            icon={<Img src={tagsIcon} size={14} />}
-            label="Tags"
-            value={
-              <span className="rp-tags">
-                <span className="rp-chip rp-chip--violet">Finance <span className="rp-chip__x">×</span></span>
-                <span className="rp-chip rp-chip--add">＋ Add</span>
-              </span>
-            }
-          />
+          <TagsField tags={conversationTags} onChangeTags={onUpdateTags} />
         </div>
       </div>
 

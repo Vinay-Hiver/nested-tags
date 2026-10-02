@@ -1,5 +1,6 @@
 import React from 'react';
 import AllViewsPanel from './AllViewsPanel';
+import TagsPanel from './TagsPanel';
 import { ViewTypeIcon, TeamFavRowIcon } from './viewIcons';
 import { INITIAL_VIEWS_BY_INBOX, MAX_FAVOURITES } from '../data/dummyViews';
 import { channelViewCount, channelInboxTotal, isCountedView } from '../data/channelChats';
@@ -18,7 +19,20 @@ import chevronDownSmall from '../assets/icons/s-chevron-down.svg';
 import sChevronDown from '../assets/icons/Read/side-bar-chevron.svg';
 
 // Channel icons (HOT Design System) — one per Shared Inbox channel.
+import personalInboxIcon from '../assets/icons/personal-inbox.svg';
 import mailChannelIcon from '../assets/icons/channels/mail.svg';
+
+const InboxTrayIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="item-icon">
+    <path
+      d="M1.66659 7.99984H3.92123C4.37803 7.99984 4.79563 8.2579 4.99992 8.6665C5.20421 9.0751 5.6218 9.33317 6.0786 9.33317H9.92125C10.3781 9.33317 10.7957 9.0751 10.9999 8.6665C11.2042 8.2579 11.6218 7.99984 12.0786 7.99984H14.3333M5.97763 2.6665H10.0222C10.7401 2.6665 11.0991 2.6665 11.416 2.77581C11.6963 2.87248 11.9515 3.03024 12.1633 3.23767C12.4028 3.47224 12.5633 3.7933 12.8844 4.43542L14.3287 7.32417C14.4547 7.57617 14.5177 7.70217 14.5622 7.83417C14.6017 7.9515 14.6301 8.07217 14.6473 8.1947C14.6666 8.33264 14.6666 8.4735 14.6666 8.75524V10.1332C14.6666 11.2533 14.6666 11.8133 14.4486 12.2412C14.2569 12.6175 13.9509 12.9234 13.5746 13.1152C13.1467 13.3332 12.5867 13.3332 11.4666 13.3332H4.53325C3.41315 13.3332 2.85309 13.3332 2.42527 13.1152C2.04895 12.9234 1.74299 12.6175 1.55124 12.2412C1.33325 11.8133 1.33325 11.2533 1.33325 10.1332V8.75524C1.33325 8.4735 1.33325 8.33264 1.35257 8.1947C1.36973 8.07217 1.39821 7.9515 1.43767 7.83417C1.48209 7.70217 1.54509 7.57617 1.67109 7.32417L3.11546 4.43542C3.43652 3.7933 3.59705 3.47224 3.83655 3.23767C4.04834 3.03024 4.30359 2.87248 4.58384 2.77581C4.90075 2.6665 5.25971 2.6665 5.97763 2.6665Z"
+      stroke="currentColor"
+      strokeWidth="1.3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
 import slackChannelIcon from '../assets/icons/channels/slack.svg';
 import whatsappChannelIcon from '../icons/whatsapp.svg';
 import chatSidebarIcon from '../icons/chat-sidebar-icon.svg';
@@ -145,6 +159,17 @@ const MainSidebarPanel = ({ activeFilter, onFilterChange, activeRole, onOpenSear
   );
 
   const [allViewsInbox, setAllViewsInbox] = React.useState(null);
+  const [tagsViewInbox, setTagsViewInbox] = React.useState(null);
+  const [personalInboxExpanded, setPersonalInboxExpanded] = React.useState(true);
+  const lastHomeFilterRef = React.useRef(
+    activeFilter?.type !== 'Tag' ? activeFilter : { inbox: 'Email 01', type: 'Mine' }
+  );
+
+  React.useEffect(() => {
+    if (activeFilter && activeFilter.type !== 'Tag') {
+      lastHomeFilterRef.current = activeFilter;
+    }
+  }, [activeFilter]);
 
   // Switching Admin/Agent always drops back to the home nav — e.g. an admin
   // pinning Team Favourites from within All Views, then flipping to Agent to
@@ -156,6 +181,7 @@ const MainSidebarPanel = ({ activeFilter, onFilterChange, activeRole, onOpenSear
       return;
     }
     setAllViewsInbox(null);
+    setTagsViewInbox(null);
   }, [activeRole]);
 
   // Views (and each inbox's favourited View ids, in display order) live here
@@ -235,23 +261,29 @@ const MainSidebarPanel = ({ activeFilter, onFilterChange, activeRole, onOpenSear
           </div>
         ))}
 
-      <div className="nav-item" style={{ cursor: 'pointer' }} onClick={(e) => e.stopPropagation()}>
-        <div className="nav-content">
-          <img src={tagsIcon} alt="" width="16" height="16" className="item-icon" />
-          <span>Tags</span>
+        <div
+          className="nav-item"
+          style={{ cursor: 'pointer' }}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          <div className="nav-content">
+            <img src={tagsIcon} alt="" width="16" height="16" className="item-icon" />
+            <span>Tags</span>
+          </div>
         </div>
-      </div>
 
-      <div
-        className="nav-item"
-        onClick={() => setAllViewsInbox(inboxName)}
-      >
-        <div className="nav-content">
-          <LayersIcon />
-          <span>All Views</span>
+        <div
+          className="nav-item"
+          onClick={() => setAllViewsInbox(inboxName)}
+        >
+          <div className="nav-content">
+            <LayersIcon />
+            <span>All Views</span>
+          </div>
         </div>
       </div>
-    </div>
   );
 };
 
@@ -269,7 +301,7 @@ const MainSidebarPanel = ({ activeFilter, onFilterChange, activeRole, onOpenSear
         {items.map((item) => (
           <div
             key={item.type}
-            className={`nav-item ${activeFilter.inbox === inboxName && activeFilter.type === item.type ? 'active' : ''}`}
+            className={`nav-item ${activeFilter.inbox === inboxName && activeFilter.type === item.type && item.type !== 'Tags' ? 'active' : ''}`}
             onClick={(e) => {
               if (item.type === 'Tags') {
                 e.stopPropagation();
@@ -290,6 +322,41 @@ const MainSidebarPanel = ({ activeFilter, onFilterChange, activeRole, onOpenSear
       </div>
     );
   };
+
+  if (tagsViewInbox) {
+    return (
+      <div className="side-nav-expanded">
+        <TagsPanel
+          inboxName={tagsViewInbox}
+          onBack={() => {
+            setTagsViewInbox(null);
+            if (activeFilter?.type !== 'Tag' && onFilterChange) {
+              onFilterChange(lastHomeFilterRef.current);
+            }
+          }}
+          onSelectTag={(tag) => {
+            if (onFilterChange) {
+              onFilterChange({
+                inbox: tagsViewInbox,
+                type: 'Tag',
+                tagName: tag.name,
+                tagId: tag.id,
+                tagColor: tag.color,
+                tagTheme: tag.theme,
+                tagCount: tag.count,
+              });
+            }
+          }}
+          onClearTag={() => {
+            if (onFilterChange) {
+              onFilterChange(lastHomeFilterRef.current);
+            }
+          }}
+          activeTagId={activeFilter?.type === 'Tag' ? activeFilter?.tagId : null}
+        />
+      </div>
+    );
+  }
 
   if (allViewsInbox) {
     return (
@@ -337,7 +404,67 @@ const MainSidebarPanel = ({ activeFilter, onFilterChange, activeRole, onOpenSear
       </div>
 
       <div className="sidebar-content">
-        <div className="section-title">Shared Inbox</div>
+        <div className="nav-group" style={{ paddingTop: '8px' }}>
+          <div
+            className={`nav-item ${activeFilter?.inbox === 'My Work' ? 'active' : ''}`}
+            onClick={() => onFilterChange?.({ inbox: 'My Work', type: 'All' })}
+          >
+            <div className="nav-content">
+              <InboxTrayIcon />
+              <span>My Work</span>
+            </div>
+          </div>
+          <div
+            className={`nav-item accordion-trigger ${personalInboxExpanded ? 'expanded' : ''} ${activeFilter?.inbox === 'Personal Inbox' && activeFilter?.type !== 'Tag' ? 'active' : ''}`}
+            onClick={() => {
+              if (!personalInboxExpanded) {
+                setPersonalInboxExpanded(true);
+              }
+              onFilterChange?.({ inbox: 'Personal Inbox', type: 'All' });
+            }}
+          >
+            <div className="nav-content">
+              <img src={personalInboxIcon} alt="" width="16" height="16" className="item-icon" />
+              <span>Personal Inbox</span>
+            </div>
+            <div
+              className="accordion-meta"
+              onClick={(e) => {
+                e.stopPropagation();
+                setPersonalInboxExpanded(prev => !prev);
+              }}
+            >
+              <img
+                src={sChevronDown}
+                alt=""
+                className={`chevron-icon ${personalInboxExpanded ? 'up' : ''}`}
+              />
+            </div>
+          </div>
+
+          <NestedGroup expanded={personalInboxExpanded}>
+            <div className="nav-group-nested">
+              <div
+                className={`nav-item ${tagsViewInbox === 'Personal Inbox' || (activeFilter?.inbox === 'Personal Inbox' && activeFilter?.type === 'Tag') ? 'active' : ''}`}
+                style={{ cursor: 'pointer' }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (activeFilter?.type === 'Tag') {
+                    onFilterChange?.(lastHomeFilterRef.current);
+                  }
+                  setTagsViewInbox('Personal Inbox');
+                }}
+              >
+                <div className="nav-content">
+                  <img src={tagsIcon} alt="" width="16" height="16" className="item-icon" />
+                  <span>Tags</span>
+                </div>
+              </div>
+            </div>
+          </NestedGroup>
+        </div>
+
+        <div className="section-title margin-top">Shared Inbox</div>
         
         <div className="nav-group">
           {INBOX_NAMES.map((name) => {

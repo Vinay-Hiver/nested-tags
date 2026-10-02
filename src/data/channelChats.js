@@ -2,14 +2,7 @@
 // (Unassigned / Assigned to Bot / Mine / All Assigned / Closed). Each view has
 // a few conversations; the sidebar shows the per-view count and the inbox total.
 
-export const CHANNEL_BY_INBOX = {
-  'Chat 01': 'chat',
-  'Chat 02': 'chat',
-  'Slack 01': 'slack',
-  'Slack 02': 'slack',
-  'WhatsApp 01': 'whatsapp',
-  'WhatsApp 02': 'whatsapp',
-};
+export const CHANNEL_BY_INBOX = {};
 
 // Slack #channel chip per inbox.
 const SLACK_CHANNEL = {

@@ -1,0 +1,204 @@
+/* CreateTagModal.css - Matching reference image */
+
+.create-tag-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  padding: 16px;
+  animation: createTagFadeIn 0.15s ease-out;
+}
+
+@keyframes createTagFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.create-tag-modal {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.15), 0 10px 10px -5px rgba(15, 23, 42, 0.08);
+  width: 440px;
+  max-width: 100%;
+  padding: 24px;
+  box-sizing: border-box;
+  font-family: var(--font-family, 'Hanken Grotesk', sans-serif);
+  animation: createTagScaleIn 0.15s ease-out;
+}
+
+@keyframes createTagScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Header */
+.create-tag-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.create-tag-title {
+  margin: 0;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 600;
+  color: var(--slateTextTitle, #0f172a);
+}
+
+.create-tag-close-btn {
+  background: transparent;
+  border: none;
+  padding: 4px;
+  margin: -4px;
+  color: var(--slateIconsSubtle, #64748b);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: color 0.15s, background-color 0.15s;
+}
+
+.create-tag-close-btn:hover {
+  color: var(--slateTextTitle, #0f172a);
+  background-color: #f1f5f9;
+}
+
+/* Fields */
+.create-tag-field {
+  margin-bottom: 20px;
+}
+
+.create-tag-label {
+  display: block;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  color: var(--slateTextBody, #334155);
+  margin-bottom: 8px;
+}
+
+.create-tag-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 14px;
+  font-size: 15px;
+  line-height: 20px;
+  font-family: inherit;
+  color: var(--slateTextBody, #1e293b);
+  background-color: #ffffff;
+  border: 1px solid var(--slateBorderLight, #cbd5e1);
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.create-tag-input::placeholder {
+  color: #94a3b8;
+}
+
+.create-tag-input:focus {
+  border-color: var(--primarySurfaceDefault, #2563eb);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+/* Colors row */
+.create-tag-colors-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.create-tag-color-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.12s, box-shadow 0.12s;
+  position: relative;
+}
+
+.create-tag-color-swatch:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.create-tag-color-swatch.selected {
+  transform: scale(1.05);
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 3.5px rgba(15, 23, 42, 0.4);
+}
+
+/* Action Buttons */
+.create-tag-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.create-tag-btn-cancel {
+  height: 38px;
+  padding: 0 18px;
+  background: #ffffff;
+  border: 1px solid var(--slateBorderLight, #e2e8f0);
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--slateTextBody, #334155);
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+
+.create-tag-btn-cancel:hover {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.create-tag-btn-save {
+  height: 38px;
+  padding: 0 22px;
+  background: var(--primarySurfaceDefault, #276cf0);
+  border: none;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.create-tag-btn-save:hover:not(:disabled) {
+  background: var(--primarySurfaceMildDark, #1d5ed8);
+}
+
+.create-tag-btn-save.disabled,
+.create-tag-btn-save:disabled {
+  background: #c8d4e2;
+  color: #64748b;
+  cursor: not-allowed;
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import './ConversationList.css';
+import { getTagTheme, getTagChipStyle } from './TagsDropdown';
 
 // Icons
 import sideBarIcon from '../assets/icons/side-bar-icon.svg';
@@ -16,7 +17,9 @@ const ConversationList = ({ conversations, selectedId, onSelect, activeFilter })
           </button>
           <div className="subject-title-wrapper">
             <div className="vertical-divider"></div>
-            <h2 className="subject-title">{activeFilter.type}</h2>
+            <h2 className="subject-title">
+              {activeFilter.tagName || (['My Work', 'Personal Inbox'].includes(activeFilter.inbox) ? activeFilter.inbox : activeFilter.type)}
+            </h2>
           </div>
         </div>
         <div className="subject-right">
@@ -55,6 +58,25 @@ const ConversationList = ({ conversations, selectedId, onSelect, activeFilter })
                 <h3 className="subject-text">{convo.subject}</h3>
               </div>
               <p className="preview-text">{convo.preview}</p>
+              {convo.tags && convo.tags.length > 0 && (
+                <div className="card-chips">
+                  {convo.tags.map((tag) => (
+                    <span
+                      key={tag.id}
+                      className={`rp-applied-chip rp-applied-chip--${getTagTheme(tag)}`}
+                      style={{
+                        ...getTagChipStyle(tag),
+                        fontSize: '11px',
+                        lineHeight: '14px',
+                        padding: '1px 6px',
+                        borderRadius: '4px'
+                      }}
+                    >
+                      {tag.name}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         ))}

@@ -29,49 +29,13 @@ const makeInbox = (views, fav = ['mine'], channel = 'email') => ({
   teamFavouriteIds: [],
 });
 
-// Order shown in the sidebar: Chat, Slack, WhatsApp, then Email.
+// Only Email 01 and Email 02 inboxes retained
 export const INITIAL_VIEWS_BY_INBOX = {
-  // ---- Chat inboxes ----
-  'Chat 01': makeInbox([
-    ...systemViews({ mine: 3, unassigned: 6, team: 8, tickets: 2, pending: 4, closed: 15 }),
-    { id: 'custom-1', name: 'Sales Leads', type: 'custom', icon: 'layers', count: 5 },
-    { id: 'custom-2', name: 'Follow-ups', type: 'custom', icon: 'layers', count: 3 },
-  ], ['mine'], 'chat'),
-  'Chat 02': makeInbox([
-    ...systemViews({ mine: 2, unassigned: 4, team: 6, tickets: 1, pending: 3, closed: 9 }),
-    { id: 'custom-1', name: 'Hot Deals', type: 'custom', icon: 'layers', count: 4 },
-    { id: 'custom-2', name: 'Demos', type: 'custom', icon: 'layers', count: 2 },
-  ], ['mine'], 'chat'),
-
-  // ---- Slack inboxes ----
-  'Slack 01': makeInbox([
-    ...systemViews({ mine: 4, unassigned: 2, team: 10, tickets: 7, pending: 6, closed: 28 }),
-    { id: 'custom-1', name: 'Incidents', type: 'custom', icon: 'layers', count: 2 },
-    { id: 'custom-2', name: 'Deploys', type: 'custom', icon: 'layers', count: 5 },
-  ], ['mine'], 'slack'),
-  'Slack 02': makeInbox([
-    ...systemViews({ mine: 1, unassigned: 3, team: 5, tickets: 2, pending: 4, closed: 12 }),
-    { id: 'custom-1', name: 'Approvals', type: 'custom', icon: 'layers', count: 3 },
-    { id: 'custom-2', name: 'Contracts', type: 'custom', icon: 'layers', count: 6 },
-  ], ['mine'], 'slack'),
-
-  // ---- WhatsApp inboxes ----
-  'WhatsApp 01': makeInbox([
-    ...systemViews({ mine: 5, unassigned: 8, team: 11, tickets: 3, pending: 7, closed: 34 }),
-    { id: 'custom-1', name: 'Delayed', type: 'custom', icon: 'layers', count: 4 },
-    { id: 'custom-2', name: 'Returns', type: 'custom', icon: 'layers', count: 2 },
-  ], ['mine'], 'whatsapp'),
-  'WhatsApp 02': makeInbox([
-    ...systemViews({ mine: 3, unassigned: 5, team: 7, tickets: 2, pending: 5, closed: 20 }),
-    { id: 'custom-1', name: 'Urgent', type: 'custom', icon: 'layers', count: 3 },
-    { id: 'custom-2', name: 'VIP', type: 'custom', icon: 'layers', count: 1 },
-  ], ['mine'], 'whatsapp'),
-
   // ---- Email inboxes ----
   'Email 01': {
     channel: 'email',
     views: [
-      ...systemViews({ mine: 2, unassigned: 4, team: 12, tickets: 8, pending: 5, closed: 3 }),
+      ...systemViews({ mine: 6, unassigned: 4, team: 12, tickets: 8, pending: 5, closed: 3 }),
       { id: 'custom-1', name: 'Escalated', type: 'custom', icon: 'layers', count: 3 },
       { id: 'custom-2', name: 'VIP', type: 'custom', icon: 'layers', count: 6 },
       { id: 'custom-3', name: 'High Priority', type: 'custom', icon: 'layers', count: 9 },
@@ -93,7 +57,7 @@ export const INITIAL_VIEWS_BY_INBOX = {
     teamFavouriteIds: [],
   },
   'Email 02': makeInbox([
-    ...systemViews({ mine: 5, unassigned: 3, team: 9, tickets: 4, pending: 11, closed: 40 }),
+    ...systemViews({ mine: 9, unassigned: 3, team: 9, tickets: 4, pending: 11, closed: 40 }),
     { id: 'custom-1', name: 'Invoices Overdue', type: 'custom', icon: 'layers', count: 7 },
     { id: 'custom-2', name: 'Refunds', type: 'custom', icon: 'layers', count: 4 },
     { id: 'custom-3', name: 'Disputes', type: 'custom', icon: 'layers', count: 2 },
